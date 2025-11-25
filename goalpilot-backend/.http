@@ -1,0 +1,61 @@
+### Register a new user
+POST http://127.0.0.1:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Ravi Teja",
+  "email": "raviteja+1@example.com",
+  "password": "my_secure_password"
+}
+
+### Login a user
+POST http://127.0.0.1:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "raviteja+1@example.com",
+  "password": "my_secure_password"
+}
+
+### Add a learning skill
+POST http://127.0.0.1:5001/api/skills/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+Content-Type: application/json
+
+{
+  "skillName": "JavaScript Basics"
+}
+
+### Update progress for a learning skill
+PUT http://127.0.0.1:5001/api/skills/update/69256e158462a135797cc548
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+Content-Type: application/json
+
+{
+  "progressPercentage": 50
+}
+
+### Get all learning skills
+GET http://127.0.0.1:5001/api/skills/learning
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+
+### Get all completed skills
+GET http://127.0.0.1:5001/api/skills/completed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+
+### Create a goal / role
+POST http://127.0.0.1:5001/api/goals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+Content-Type: application/json
+
+{
+  "goalName": "SDE"
+}
+
+### Get all user goals
+GET http://127.0.0.1:5001/api/goals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
+
+### Search YouTube videos
+GET http://127.0.0.1:5001/api/videos/search?q=JavaScript%20Tutorials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MjU2ZDkzODQ2MmExMzU3OTdjYzUzZiIsImlhdCI6MTc2NDA2MDY0NCwiZXhwIjoxNzY2NjUyNjQ0fQ.ncQglI_VQN5pB6YPNMClLSD3gYU1nPcu1Xly0pwrwOk
