@@ -1,0 +1,13 @@
+# Node
+node_modules/
+
+# Backend env
+goalpilot-backend/.env
+goalpilot-backend/node_modules/
+
+# Frontend env / node_modules placeholder
+goalpilot-frontend/node_modules/
+goalpilot-frontend/.env
+
+# OS
+.DS_Store
