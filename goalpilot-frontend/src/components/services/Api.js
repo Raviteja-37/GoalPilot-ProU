@@ -1,7 +1,8 @@
 // src/services/api.js
 import Cookies from 'js-cookie';
 
-const BASE_URL = 'http://127.0.0.1:5001/api';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const token = () => Cookies.get('token');
 
 const handleResponse = async (res) => {

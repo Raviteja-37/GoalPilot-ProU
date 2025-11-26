@@ -6,7 +6,7 @@ export const search = async (req, res) => {
   if (!q) return res.status(400).json({ message: 'Query ("q") is required' });
 
   try {
-    const videos = await youtubeService.searchVideos(q, 8);
+    const videos = await youtubeService.searchVideos(q, 10);
     res.json(videos);
   } catch (err) {
     console.error(err);

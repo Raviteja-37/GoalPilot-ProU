@@ -18,7 +18,7 @@ const Navbar = () => {
   const goToRegister = () => navigate('/register');
 
   const isDashboard = location.pathname === '/dashboard';
-  const isLogin = location.pathname === '/login';
+  const isLogin = location.pathname === '/' || location.pathname === '/login';
   const isRegister = location.pathname === '/register';
 
   return (
