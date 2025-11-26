@@ -1,3 +1,5 @@
+// Optional Feature: Generate skill recommendations based on role name. Not Implemented, but can be used in future.
+
 // src/services/recommendationService.js
 const roleMap = {
   sde: [

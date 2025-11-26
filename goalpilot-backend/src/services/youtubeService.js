@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const YT_BASE = 'https://www.googleapis.com/youtube/v3/search';
 
-export const searchVideos = async (query, maxResults = 5) => {
+export const searchVideos = async (query, maxResults = 10) => {
   const params = {
     key: process.env.YOUTUBE_API_KEY || process.env.YT_API_KEY,
     q: query,

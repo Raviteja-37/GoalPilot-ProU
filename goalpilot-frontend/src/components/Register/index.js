@@ -1,9 +1,8 @@
-// src/components/Register/index.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './index.css';
-import { registerUser } from '../services/Api';
+import { registerUser } from '../services/Api.js';
 import Navbar from '../Navbar';
 import Loader from '../Loader';
 
@@ -22,7 +21,7 @@ const Register = () => {
     try {
       const data = await registerUser(name, email, password);
       Cookies.set('token', data.token);
-      navigate('/dashboard');
+      navigate('/login');
     } catch (err) {
       alert(err.message || 'Registration failed');
     } finally {
@@ -31,42 +30,47 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className="register-container">
-        <h2>Register</h2>
 
-        <form onSubmit={handleRegister}>
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+      <div className="auth-page">
+        <div className="background-tech"></div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="auth-container">
+          <h2>Register</h2>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <form onSubmit={handleRegister}>
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
 
-          <button type="submit" disabled={loading}>
-            {loading ? <Loader size={18} /> : 'Register'}
-          </button>
-        </form>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <button type="submit" disabled={loading}>
+              {loading ? <Loader size={18} /> : 'Register'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

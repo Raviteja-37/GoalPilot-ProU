@@ -7,11 +7,27 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
+  align-items: start; /* align cards to top */
 }
 
 .chart-card {
-  background: #ffffff;
+  background: #1e1e1e; /* dark card background */
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5); /* stronger shadow for dark theme */
+  color: #f0f0f0; /* text color */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 400px; /* same height for all cards */
+}
+
+.chart-card h3 {
+  color: #00eaff; /* neon accent to match dashboard */
+  margin-bottom: 15px;
+  text-align: center; /* optional: center titles */
+}
+
+.chart-card canvas {
+  flex: 1; /* chart takes remaining space for consistent sizing */
 }

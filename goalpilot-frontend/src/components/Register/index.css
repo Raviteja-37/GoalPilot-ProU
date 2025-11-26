@@ -1,31 +1,158 @@
-/* src/components/Register/index.css */
-.register-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
+/* FULL PAGE BACKGROUND */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at top, #00111a, #000000 80%);
+  overflow: hidden;
+  position: relative;
 }
 
-.register-container input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 8px;
+/* Animated waves */
+.auth-page::before {
+  content: '';
+  position: absolute;
+  width: 500%;
+  height: 500%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 255, 255, 0.12),
+    rgba(0, 255, 255, 0.12) 6px,
+    transparent 3px,
+    transparent 12px
+  );
+  animation: waveMove 9s linear infinite;
+  filter: blur(1px);
+  opacity: 0.45;
 }
 
-.register-container button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: center;
+@keyframes waveMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-400px);
+  }
+}
+
+.auth-page::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+
+  background-image: radial-gradient(
+      circle,
+      rgba(0, 255, 255, 0.55) 1px,
+      transparent 5px
+    ),
+    radial-gradient(circle, rgba(0, 255, 255, 0.35) 1px, transparent 5px),
+    radial-gradient(circle, rgba(0, 255, 255, 0.25) 1px, transparent 5px);
+
+  background-size: 160px 160px, 240px 240px, 320px 320px;
+  background-position: 0px 0px, 80px 150px, 160px 300px;
+
+  animation: floatBubbles 14s linear infinite;
+  opacity: 0.55;
+  filter: blur(0.5px);
+}
+
+@keyframes floatBubbles {
+  from {
+    transform: translateY(0) translateX(0);
+  }
+  to {
+    transform: translateY(-260px) translateX(80px);
+  }
+}
+
+/* Center alignment */
+.auth-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+/* Register Box (same as Login Box) */
+.register-box {
+  width: 420px;
+  padding: 32px;
+  background: rgba(15, 15, 25, 0.8);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+  animation: fadeIn 0.7s ease;
+}
+
+.register-box h2 {
+  text-align: center;
+  color: #00eaff;
+  text-shadow: 0 0 10px #00eaff;
+  letter-spacing: 1px;
+  margin-bottom: 22px;
+}
+
+/* Inputs */
+.register-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.register-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  background: rgba(12, 12, 25, 0.9);
+  color: white;
+  outline: none;
+  font-size: 15px;
+  transition: 0.3s ease;
+  box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.2);
+}
+
+.register-box input:focus {
+  border-color: #00eaff;
+  box-shadow: 0 0 12px #00eaff, inset 0 0 12px rgba(0, 255, 255, 0.4);
+}
+
+/* Button */
+.register-box button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #00eaff, #0066ff);
+  border: none;
+  color: black;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.25s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+.register-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
+}
+
+.register-box button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

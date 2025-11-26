@@ -84,28 +84,19 @@ const ChartsSection = ({ learningSkills, completedSkills, goals }) => {
         }}
       >
         {/* Progress Chart */}
-        <div
-          className="chart-card"
-          style={{ padding: '20px', background: '#fff', borderRadius: '10px' }}
-        >
+        <div className="chart-card">
           <h3>Learning Skills Progress</h3>
           <Bar data={progressData} />
         </div>
 
         {/* Count Chart */}
-        <div
-          className="chart-card"
-          style={{ padding: '20px', background: '#fff', borderRadius: '10px' }}
-        >
+        <div className="chart-card">
           <h3>Learning vs Completed</h3>
           <Bar data={skillCountData} />
         </div>
 
         {/* Goals Pie */}
-        <div
-          className="chart-card"
-          style={{ padding: '20px', background: '#fff', borderRadius: '10px' }}
-        >
+        <div className="chart-card">
           <h3>Goals Breakdown</h3>
           <Pie data={goalsData} />
         </div>

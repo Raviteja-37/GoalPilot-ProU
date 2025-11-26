@@ -80,7 +80,7 @@ export const createGoal = async (goalName) => {
   return res.json();
 };
 // YouTube Videos
-export const searchYouTubeVideos = (query, maxResults = 5) =>
+export const searchYouTubeVideos = (query, maxResults = 10) =>
   fetch(`${BASE_URL}/videos/search?q=${encodeURIComponent(query)}`, {
     headers: { Authorization: `Bearer ${token()}` },
   }).then(handleResponse);

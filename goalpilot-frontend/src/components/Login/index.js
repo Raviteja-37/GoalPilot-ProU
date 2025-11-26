@@ -1,4 +1,3 @@
-// src/components/Login/index.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -30,34 +29,39 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className="login-container">
-        <h2>Login</h2>
 
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <div className="auth-page">
+        <div className="background-tech"></div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="auth-container">
+          <h2>Login</h2>
 
-          <button type="submit" disabled={loading}>
-            {loading ? <Loader size={18} /> : 'Login'}
-          </button>
-        </form>
+          <form onSubmit={handleLogin}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <button type="submit" disabled={loading}>
+              {loading ? <Loader size={18} /> : 'Login'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

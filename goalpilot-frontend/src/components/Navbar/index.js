@@ -1,3 +1,4 @@
+// src/components/Navbar/index.jsx
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -6,7 +7,6 @@ import './index.css';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const token = Cookies.get('token');
 
   const handleLogout = () => {
@@ -27,14 +27,11 @@ const Navbar = () => {
         GoalPilot
       </div>
 
-      {/* Dashboard → Show Logout */}
-      {isDashboard && token && <button onClick={handleLogout}>Logout</button>}
-
-      {/* Login Page → Show Register */}
-      {isLogin && <button onClick={goToRegister}>Register</button>}
-
-      {/* Register Page → Show Login */}
-      {isRegister && <button onClick={goToLogin}>Login</button>}
+      <div className="nav-actions">
+        {isDashboard && token && <button onClick={handleLogout}>Logout</button>}
+        {isLogin && <button onClick={goToRegister}>Register</button>}
+        {isRegister && <button onClick={goToLogin}>Login</button>}
+      </div>
     </nav>
   );
 };
