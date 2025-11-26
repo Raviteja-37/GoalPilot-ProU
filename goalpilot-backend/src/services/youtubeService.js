@@ -13,10 +13,13 @@ export const searchVideos = async (query, maxResults = 5) => {
   };
 
   const resp = await axios.get(YT_BASE, { params });
-  return resp.data.items.map((item) => ({
-    videoId: item.id.videoId,
-    title: item.snippet.title,
-    description: item.snippet.description,
-    thumbnail: item.snippet.thumbnails?.default?.url,
-  }));
+
+  return {
+    videos: resp.data.items.map((item) => ({
+      videoId: item.id.videoId,
+      title: item.snippet.title,
+      description: item.snippet.description,
+      thumbnail: item.snippet.thumbnails?.default?.url,
+    })),
+  };
 };

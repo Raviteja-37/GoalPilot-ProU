@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
 import './index.css';
+
 import {
   getLearningSkills,
   getCompletedSkills,
@@ -11,176 +12,239 @@ import {
   updateSkillProgress,
 } from '../services/Api';
 
+import RoadmapModal from '../RoadMapModal';
+import roadmaps from '../Data.js';
+import VideoPlayerModal from '../VideoPlayerModal';
+import ChartsSection from '../ChartsSection';
+
 const Dashboard = () => {
   const [learningSkills, setLearningSkills] = useState([]);
   const [completedSkills, setCompletedSkills] = useState([]);
   const [goals, setGoals] = useState([]);
+
   const [newLearningSkill, setNewLearningSkill] = useState('');
   const [newCompletedSkill, setNewCompletedSkill] = useState('');
   const [newGoal, setNewGoal] = useState('');
 
+  const [showRoadmap, setShowRoadmap] = useState(false);
+  const [selectedRoadmap, setSelectedRoadmap] = useState(null);
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Fetch data on load
   useEffect(() => {
     const fetchData = async () => {
-      const learning = await getLearningSkills();
-      const completed = await getCompletedSkills();
-      const goalsData = await getGoals();
-      setLearningSkills(learning);
-      setCompletedSkills(completed);
-      setGoals(goalsData);
+      setLearningSkills(await getLearningSkills());
+      setCompletedSkills(await getCompletedSkills());
+      setGoals(await getGoals());
     };
     fetchData();
   }, []);
 
-  // Learning Skill
+  // Add learning skill
   const handleAddLearningSkill = async () => {
-    if (!newLearningSkill) return;
+    if (!newLearningSkill.trim()) return;
     const skill = await addLearningSkill(newLearningSkill);
     setLearningSkills([...learningSkills, skill]);
     setNewLearningSkill('');
   };
 
+  // Update progress
   const handleUpdateProgress = async (skillId, progress) => {
-    // 1. Find the original skill data BEFORE making the API call
-    const skillToComplete = learningSkills.find((s) => s._id === skillId);
-    if (!skillToComplete) return; // Safety check
+    const skill = learningSkills.find((s) => s._id === skillId);
+    if (!skill) return;
 
-    // 2. Make the API call
     const updated = await updateSkillProgress(skillId, progress);
 
     if (progress >= 100) {
-      // 3. Since the backend now returns the completedSkill object (which has an _id),
-      //    we use it to update the completed list.
-      const completedSkillData = updated._id
-        ? updated
-        : {
-            // Fallback for immediate UI display if backend returned only a message
-            _id: skillToComplete._id,
-            skillName: skillToComplete.skillName,
-          };
+      const completedSkill =
+        updated._id !== undefined
+          ? updated
+          : {
+              _id: skill._id,
+              skillName: skill.skillName,
+            };
 
-      // Update local state: remove from learning, add to completed
       setLearningSkills(learningSkills.filter((s) => s._id !== skillId));
-      setCompletedSkills([...completedSkills, completedSkillData]);
+      setCompletedSkills([...completedSkills, completedSkill]);
     } else {
-      // Progress < 100, update the learning skill
       setLearningSkills(
         learningSkills.map((s) => (s._id === skillId ? updated : s))
       );
     }
   };
 
-  // Completed Skill
+  // Add completed skill
   const handleAddCompletedSkill = async () => {
-    if (!newCompletedSkill) return;
+    if (!newCompletedSkill.trim()) return;
     const skill = await addCompletedSkill(newCompletedSkill);
     setCompletedSkills([...completedSkills, skill]);
     setNewCompletedSkill('');
   };
 
-  // Goals
+  // Add goal
   const handleAddGoal = async () => {
-    if (!newGoal) return;
+    if (!newGoal.trim()) return;
     const goal = await createGoal(newGoal);
     setGoals([...goals, goal]);
     setNewGoal('');
   };
 
-  // YouTube search
-  const handleYouTube = (query) => {
-    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(
-      query
-    )}`;
-    window.open(url, '_blank');
+  const openVideoModal = (query) => {
+    setSearchQuery(query);
+    setShowVideoPlayer(true);
+  };
+
+  // Open roadmap modal
+  const openRoadmap = (goalName) => {
+    const key = goalName.toLowerCase();
+
+    if (roadmaps[key]) {
+      setSelectedRoadmap(roadmaps[key]);
+      setShowRoadmap(true);
+    } else {
+      alert('No roadmap available for this goal yet.');
+    }
   };
 
   return (
     <div>
       <Navbar />
-      <div className="dashboard-container">
-        <h2>Dashboard</h2>
 
-        {/* Learning Skills */}
-        <section>
-          <h3>Learning Skills</h3>
-          <input
-            type="text"
-            placeholder="Add new learning skill"
-            value={newLearningSkill}
-            onChange={(e) => setNewLearningSkill(e.target.value)}
-          />
-          <button onClick={handleAddLearningSkill}>Add</button>
+      <div className="dashboard-wrapper">
+        <h2 className="dashboard-title">GoalPilot Dashboard</h2>
 
-          <ul>
-            {learningSkills.map((skill) => (
-              <li key={skill._id}>
-                {skill.skillName} - {skill.progressPercentage}%
-                <input
-                  type="number"
-                  placeholder="Update %"
-                  min="0"
-                  max="100"
-                  onChange={(e) =>
-                    handleUpdateProgress(skill._id, Number(e.target.value))
-                  }
-                />
-                <button onClick={() => handleYouTube(skill.skillName)}>
-                  Watch Video
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <div className="grid-container">
+          {/* ================= Learning Skills ================= */}
+          <div className="card">
+            <h3>Learning Skills</h3>
 
-        {/* Completed Skills */}
-        <section>
-          <h3>Completed Skills</h3>
-          <input
-            type="text"
-            placeholder="Add completed skill"
-            value={newCompletedSkill}
-            onChange={(e) => setNewCompletedSkill(e.target.value)}
-          />
-          <button onClick={handleAddCompletedSkill}>Add</button>
+            <div className="input-row">
+              <input
+                type="text"
+                placeholder="Enter new learning skill"
+                value={newLearningSkill}
+                onChange={(e) => setNewLearningSkill(e.target.value)}
+              />
+              <button onClick={handleAddLearningSkill}>Add</button>
+            </div>
 
-          <ul>
-            {completedSkills.map((skill) => (
-              <li key={skill._id}>
-                {skill.skillName}
-                <button onClick={() => handleYouTube(skill.skillName)}>
-                  Watch Video
-                </button>
-                {/* Note: Avoid window.alert in production apps. Use a custom modal instead. */}
-                <button onClick={() => console.log('Revision clicked')}>
-                  Revision
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+            <ul className="list">
+              {learningSkills.map((skill) => (
+                <li key={skill._id} className="list-item">
+                  <div>
+                    <strong>{skill.skillName}</strong>
+                    <p className="progress-label">
+                      {skill.progressPercentage}% completed
+                    </p>
+                  </div>
 
-        {/* Goals */}
-        <section>
-          <h3>Goals</h3>
-          <input
-            type="text"
-            placeholder="Add goal"
-            value={newGoal}
-            onChange={(e) => setNewGoal(e.target.value)}
-          />
-          <button onClick={handleAddGoal}>Add</button>
+                  <div className="actions">
+                    <input
+                      type="number"
+                      placeholder="Update %"
+                      min="0"
+                      max="100"
+                      onChange={(e) =>
+                        handleUpdateProgress(skill._id, Number(e.target.value))
+                      }
+                    />
 
-          <ul>
-            {goals.map((goal) => (
-              <li key={goal._id}>
-                {goal.goalName}
-                <button onClick={() => handleYouTube(goal.goalName)}>
-                  Watch Video
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+                    <button onClick={() => openVideoModal(skill.skillName)}>
+                      Learn
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ================= Completed Skills ================= */}
+          <div className="card">
+            <h3>Completed Skills</h3>
+
+            <div className="input-row">
+              <input
+                type="text"
+                placeholder="Enter completed skill"
+                value={newCompletedSkill}
+                onChange={(e) => setNewCompletedSkill(e.target.value)}
+              />
+              <button onClick={handleAddCompletedSkill}>Add</button>
+            </div>
+
+            <ul className="list">
+              {completedSkills.map((skill) => (
+                <li key={skill._id} className="list-item">
+                  <strong>{skill.skillName}</strong>
+
+                  <div className="actions">
+                    <button onClick={() => openVideoModal(skill.skillName)}>
+                      Revise
+                    </button>
+
+                    {/* <button className="revise-btn">Revise</button> */}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ================= Goals ================= */}
+          <div className="card wide-card">
+            <h3>Your Goals</h3>
+
+            <div className="input-row">
+              <input
+                type="text"
+                placeholder="Enter new goal"
+                value={newGoal}
+                onChange={(e) => setNewGoal(e.target.value)}
+              />
+              <button onClick={handleAddGoal}>Add</button>
+            </div>
+
+            <ul className="list">
+              {goals.map((goal) => (
+                <li key={goal._id} className="list-item goal-item">
+                  <strong>{goal.goalName}</strong>
+
+                  <div className="actions">
+                    <button onClick={() => openVideoModal(goal.goalName)}>
+                      Explore
+                    </button>
+
+                    <button
+                      className="roadmap-btn"
+                      onClick={() => openRoadmap(goal.goalName)}
+                    >
+                      View Roadmap
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
+
+      <ChartsSection
+        learningSkills={learningSkills}
+        completedSkills={completedSkills}
+        goals={goals}
+      />
+
+      {/* ===== Roadmap Modal ===== */}
+      <RoadmapModal
+        isOpen={showRoadmap}
+        onClose={() => setShowRoadmap(false)}
+        roadmap={selectedRoadmap}
+      />
+      <VideoPlayerModal
+        isOpen={showVideoPlayer}
+        onClose={() => setShowVideoPlayer(false)}
+        query={searchQuery}
+      />
     </div>
   );
 };

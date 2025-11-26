@@ -1,14 +1,112 @@
-/* src/components/Dashboard/index.css */
-.dashboard-container {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
+.dashboard-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px;
 }
 
-.dashboard-container section {
-  margin-bottom: 20px;
+.dashboard-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.wide-card {
+  grid-column: span 2;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input-row input {
+  flex: 1;
   padding: 10px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.input-row button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background: #1a73e8;
+  color: white;
+  cursor: pointer;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list-item {
+  padding: 12px;
+  background: #f2f4f7;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-label {
+  font-size: 13px;
+  color: #666;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button,
+.roadmap-btn,
+.revise-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: #1a73e8;
+  color: white;
+}
+
+.revise-btn {
+  background: #5c2c91;
+}
+
+.roadmap-btn {
+  background: #0b8a5f;
+}
+
+.goal-item {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
